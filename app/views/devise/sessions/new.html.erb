@@ -1,26 +1,33 @@
-<h2>Log in</h2>
+<div class="min-h-screen flex items-center justify-center bg-base-200">
+  <div class="card w-full max-w-md shadow-xl p-6 bg-base-100">
+    <h2 class="text-2xl font-bold text-center mb-4">ログイン</h2>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="form-control mb-4">
+        <%= f.label :email, class: "label" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input input-bordered w-full" %>
+      </div>
+
+      <div class="form-control mb-4">
+        <%= f.label :password, class: "label" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "input input-bordered w-full" %>
+      </div>
+
+      <div class="form-control mb-4">
+        <label class="cursor-pointer label">
+          <%= f.check_box :remember_me, class: "checkbox checkbox-primary mr-2" %>
+          <span class="label-text">ログイン状態を保持</span>
+        </label>
+      </div>
+
+      <div class="form-control mt-6">
+        <%= f.submit "ログイン", class: "btn btn-primary w-full" %>
+      </div>
+    <% end %>
+
+    <p class="mt-4 text-center text-sm">
+      まだアカウントをお持ちでないですか？ 
+      <%= link_to "新規登録", new_user_registration_path, class: "link link-primary" %>
+    </p>
   </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

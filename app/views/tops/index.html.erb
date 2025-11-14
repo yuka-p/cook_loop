@@ -1,9 +1,10 @@
-<h1 class="text-3xl font-bold underline">
-    Hello world!
-</h1>
+<!-- app/views/tops/index.html.erb -->
+<div class="min-h-screen flex flex-col justify-center items-center bg-base-100">
+  <h1 class="text-5xl font-bold mb-6">COOK LOOP</h1>
+  <p class="text-lg text-gray-600 mb-10">毎日の献立作りをもっと簡単に、楽しく。</p>
 
-<button class="bg-gray-900 hover:bg-gray-800 text-white rounded px-4 py-2">tailwind</button>
-
-<button class="btn">daisyUI</button>
-
-<%= link_to 'ログイン', new_user_session_path %> | <%= link_to '新規登録', new_user_registration_path %>
+  <div class="flex flex-col sm:flex-row gap-4">
+    <%= link_to 'ログイン', new_user_session_path, class: "btn btn-primary btn-lg" %>
+    <%= link_to '新規登録', new_user_registration_path, class: "btn btn-secondary btn-lg" %>
+  </div>
+</div>

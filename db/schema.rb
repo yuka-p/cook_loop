@@ -10,9 +10,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_11_14_061953) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_17_054112) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "master_menus", force: :cascade do |t|
+    t.string "title"
+    t.integer "genre"
+    t.text "ingredients"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "meal_items", force: :cascade do |t|
+    t.bigint "meal_plan_id", null: false
+    t.bigint "my_menu_id", null: false
+    t.boolean "cooked"
+    t.datetime "cooked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meal_plan_id"], name: "index_meal_items_on_meal_plan_id"
+    t.index ["my_menu_id"], name: "index_meal_items_on_my_menu_id"
+  end
+
+  create_table "meal_plans", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_meal_plans_on_user_id"
+  end
+
+  create_table "my_menus", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title"
+    t.integer "genre"
+    t.text "ingredients"
+    t.string "reference_url"
+    t.text "note"
+    t.date "last_cooked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "master_menu_id"
+    t.index ["master_menu_id"], name: "index_my_menus_on_master_menu_id"
+    t.index ["user_id"], name: "index_my_menus_on_user_id"
+  end
+
+  create_table "user_genres", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "name"], name: "index_user_genres_on_user_id_and_name", unique: true
+    t.index ["user_id"], name: "index_user_genres_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -26,4 +77,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_14_061953) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "meal_items", "meal_plans"
+  add_foreign_key "meal_items", "my_menus"
+  add_foreign_key "meal_plans", "users"
+  add_foreign_key "my_menus", "master_menus"
+  add_foreign_key "my_menus", "users"
+  add_foreign_key "user_genres", "users"
 end

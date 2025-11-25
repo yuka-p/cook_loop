@@ -1,2 +1,39 @@
-<h1>MyMenus#index</h1>
-<p>Find me in app/views/my_menus/index.html.erb</p>
+<div class="max-w-2xl mx-auto mt-8">
+
+  <!-- ページタイトル -->
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold">マイメニュー一覧</h1>
+
+    <!-- ホームに戻るボタン -->
+    <%= link_to home_index_path, class: "btn btn-outline" do %>
+      ⬅ ホームに戻る
+    <% end %>
+  </div>
+
+  <!-- メニュー一覧 -->
+  <div class="grid gap-4">
+
+    <% @my_menus.each do |menu| %>
+      <div class="card bg-base-100 shadow p-4 rounded-xl flex justify-between items-center">
+        
+        <!-- メニュー名（詳細へのリンク） -->
+        <%= link_to menu.title, my_menu_path(menu),
+            class: "text-lg font-semibold hover:underline" %>
+
+        <!-- 削除ボタン -->
+        <%= button_to "削除",
+            my_menu_path(menu),
+            method: :delete,
+            data: { confirm: "本当に削除しますか？" },
+            class: "btn btn-error btn-sm" %>
+
+      </div>
+    <% end %>
+
+  </div>
+
+  <!-- 新規作成ボタン（任意） -->
+  <div class="text-center mt-8">
+    <%= link_to "新しいメニューを作成する", new_my_menu_path, class: "btn btn-primary" %>
+  </div>
+</div>

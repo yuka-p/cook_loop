@@ -1,2 +1,19 @@
-<h1>MyMenus#show</h1>
-<p>Find me in app/views/my_menus/show.html.erb</p>
+<div class="max-w-2xl mx-auto mt-8">
+
+  <h1 class="text-3xl font-bold mb-4"><%= @my_menu.title %></h1>
+
+  <!-- 材料（meal_items）があれば表示 -->
+  <% if @my_menu.meal_items.any? %>
+    <h2 class="text-xl font-semibold mb-2">材料</h2>
+    <ul class="list-disc ml-6 mb-6">
+      <% @my_menu.meal_items.each do |item| %>
+        <li><%= item.name %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class="mt-6 flex gap-4">
+    <%= link_to "編集", edit_my_menu_path(@my_menu), class: "btn btn-primary" %>
+    <%= link_to "一覧へ戻る", my_menus_path, class: "btn" %>
+  </div>
+</div>

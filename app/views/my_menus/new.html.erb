@@ -1,2 +1,54 @@
-<h1>MyMenus#new</h1>
-<p>Find me in app/views/my_menus/new.html.erb</p>
+<div class="max-w-xl mx-auto mt-10">
+
+  <h1 class="text-3xl font-bold mb-6">マイメニューを追加</h1>
+
+  <%= form_with model: @my_menu, url: my_menus_path, class: "space-y-6" do |f| %>
+
+    <!-- 料理名 -->
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text font-semibold">料理名</span>
+      </label>
+      <%= f.text_field :title, class: "input input-bordered w-full" %>
+    </div>
+
+    <!-- ジャンル（UserGenre より表示） -->
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text font-semibold">ジャンル</span>
+      </label>
+
+      <%= f.collection_select :genre_id,
+            @user_genres,
+            :id,
+            :name,
+            { prompt: "選択してください" },
+            { class: "select select-bordered w-full" } %>
+    </div>
+
+    <!-- マスターメニューから選ぶ（任意） -->
+    <div class="form-control">
+      <label class="label">
+        <span class="label-text font-semibold">定番メニュー（任意）</span>
+      </label>
+
+      <%= f.collection_select :master_menu_id,
+            @master_menus,
+            :id,
+            :title,
+            { prompt: "選択しない" },
+            { class: "select select-bordered w-full" } %>
+    </div>
+
+    <!-- 送信ボタン -->
+    <div class="mt-6">
+      <%= f.submit "登録する", class: "btn btn-primary w-full" %>
+    </div>
+
+  <% end %>
+
+  <!-- 戻るボタン -->
+  <div class="mt-4 text-center">
+    <%= link_to "戻る", my_menus_path, class: "btn btn-outline" %>
+  </div>
+</div>

@@ -9,12 +9,15 @@ class MyMenusControllerTest < ActionDispatch::IntegrationTest
       user.user_name = "TestUser"
     end
 
-    # ジャンルも同様
-    @genre = @user.user_genres.find_or_create_by!(name: "主菜")
-
     # マイメニューはユニークかつ15文字以内に
     unique_title = "テストメニュー#{SecureRandom.hex(2)}" # 最大15文字
-    @my_menu = MyMenu.create!(title: unique_title, user: @user, genre: @genre)
+
+    # genreはenumに対応させる（例: main, side, soup, staple, other）
+    @my_menu = MyMenu.create!(
+      title: unique_title,
+      user: @user,
+      genre: :main # ここを必要に応じて他のジャンルに変更可能
+    )
 
     sign_in @user
   end

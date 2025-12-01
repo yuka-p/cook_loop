@@ -6,7 +6,7 @@
   <!-- ジャンル -->
   <p class="mb-2">
     <span class="font-semibold">ジャンル:</span>
-    <%= @my_menu.genre.name %>
+    <%= I18n.t("enums.my_menu.genre.#{@my_menu.genre}") %>
   </p>
 
   <!-- 材料 -->

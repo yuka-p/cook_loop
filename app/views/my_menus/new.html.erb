@@ -17,12 +17,13 @@
       <label class="label">
         <span class="label-text font-semibold">ジャンル</span>
       </label>
-      <%= f.collection_select :genre,
-            @user_genres,
-            :id,
-            :name,
-            { prompt: "選択してください" },
-            { class: "select select-bordered w-full" } %>
+      <%= f.select :genre,
+        options_for_select(
+          MyMenu.genres.keys.map { |k| [I18n.t("enums.my_menu.genre.#{k}"), k] },
+          f.object.genre
+        ),
+        { prompt: "選択してください" },
+        { class: "select select-bordered w-full" } %>
     </div>
 
     <!-- 材料 -->

@@ -12,7 +12,6 @@ class MyMenusController < ApplicationController
 
   def new
     @my_menu = MyMenu.new
-    @user_genres = current_user.user_genres.order(:position)
     @master_menus = MasterMenu.all
   end
 

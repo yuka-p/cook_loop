@@ -22,5 +22,11 @@ ja:
         note: メモ
         last_cooked_at: 最後に作った日
 
-      user_genre:
-        name: ジャンル名
+  enums:
+    my_menu:
+      genre:
+        staple: 主食
+        main: 主菜
+        side: 副菜
+        soup: 汁物
+        other: その他

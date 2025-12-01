@@ -6,15 +6,4 @@ class User < ApplicationRecord
 
   has_many :my_menus, dependent: :destroy
   has_many :meal_plans
-  has_many :user_genres, dependent: :destroy
-
-  after_create :create_default_genres
-
-  private
-
-  def create_default_genres
-    %w[主食 主菜 副菜 汁物].each do |name|
-    self.user_genres.create!(name: name)
-    end
-  end
 end

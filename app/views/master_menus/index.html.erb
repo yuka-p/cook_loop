@@ -1,0 +1,99 @@
+<h1 class="text-xl font-bold mb-4">マスターメニュー選択</h1>
+
+<%= form_with url: import_from_master_my_menus_path, method: :post, id: "menuForm" do %>
+
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+    <% @master_menus.each do |menu| %>
+      <button
+        type="button"
+        data-id="<%= menu.id %>"
+        data-title="<%= menu.title %>"
+        data-genre="<%= menu.genre %>"
+        class="menu-btn border rounded-xl p-3 text-center transition
+               hover:bg-blue-100 
+               bg-white">
+        <%= menu.title %>
+        <span class="block text-xs text-gray-500"><%= menu.genre %></span>
+      </button>
+    <% end %>
+  </div>
+
+  <!-- hidden field: 選択されたIDを送る -->
+  <input type="hidden" name="menu_ids[]" id="selectedMenuIds">
+
+  <button type="button"
+    id="confirmBtn"
+    class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+    登録内容を確認する
+  </button>
+
+<% end %>
+
+<!-- ---- 確認モーダル ---- -->
+<div id="confirmModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-lg w-80">
+    <h2 class="text-lg font-bold mb-3">これを登録しますか？</h2>
+    <ul id="confirmList" class="mb-4 text-sm text-gray-700"></ul>
+
+    <div class="flex justify-between">
+      <button id="cancelModal"
+        class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">
+        キャンセル
+      </button>
+      <button id="submitForm"
+        class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+        登録する
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const selected = new Set();
+
+  document.querySelectorAll(".menu-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+
+      if (selected.has(id)) {
+        selected.delete(id);
+        btn.classList.remove("bg-blue-200");
+      } else {
+        selected.add(id);
+        btn.classList.add("bg-blue-200");
+      }
+    });
+  });
+
+  // 「登録内容を確認する」ボタン
+  document.getElementById("confirmBtn").addEventListener("click", () => {
+    if (selected.size === 0) {
+      alert("メニューを選択してください");
+      return;
+    }
+
+    // モーダル用のリスト生成
+    const list = document.getElementById("confirmList");
+    list.innerHTML = "";
+
+    selected.forEach(id => {
+      const btn = document.querySelector(`[data-id='${id}']`);
+      const li = document.createElement("li");
+      li.textContent = `${btn.dataset.title}（${btn.dataset.genre}）`;
+      list.appendChild(li);
+    });
+
+    document.getElementById("confirmModal").classList.remove("hidden");
+  });
+
+  // モーダル「キャンセル」
+  document.getElementById("cancelModal").addEventListener("click", () => {
+    document.getElementById("confirmModal").classList.add("hidden");
+  });
+
+  // モーダル「登録する」
+  document.getElementById("submitForm").addEventListener("click", () => {
+    document.getElementById("selectedMenuIds").value = Array.from(selected);
+    document.getElementById("menuForm").submit();
+  });
+</script>

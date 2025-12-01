@@ -37,6 +37,30 @@ class MyMenusController < ApplicationController
     redirect_to my_menus_path, notice: "削除しました"
   end
 
+  def select_from_master
+    @master_menus = MasterMenu.all.order(:genre)
+  end
+
+  def import_from_master
+    selected_ids = params[:menu_ids]
+
+    if selected_ids.blank?
+      redirect_to select_from_master_my_menus_path, alert: "メニューを選択してください"
+      return
+    end
+
+    master_menus = MasterMenu.where(id: selected_ids)
+
+    master_menus.each do |m|
+      current_user.my_menus.create!(
+        title: m.title,
+        genre: m.genre # 文字列 "main" などを enum に渡せる
+      )
+    end
+
+    redirect_to my_menus_path, notice: "マイメニューに登録しました！"
+  end
+
   private
 
   def set_my_menu

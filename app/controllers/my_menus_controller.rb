@@ -33,33 +33,42 @@ class MyMenusController < ApplicationController
 
   def destroy
     @my_menu.destroy
-    redirect_to my_menus_path, notice: "削除しました"
-  end
-
-  def select_from_master
-    @master_menus = MasterMenu.all.order(:genre)
+    redirect_to my_menus_path, notice: "メニューを削除しました"
   end
 
   def import_from_master
-    selected_ids = params[:menu_ids]
-
-    if selected_ids.blank?
-      redirect_to select_from_master_my_menus_path, alert: "メニューを選択してください"
+    menu_ids = params[:menu_ids] || []
+    if menu_ids.empty?
+      render turbo_stream: turbo_stream.replace(
+        "modal",
+        partial: "my_menus/modal_alert",
+        locals: { message: "1つ以上選択してください" }
+      )
       return
     end
 
-    master_menus = MasterMenu.where(id: selected_ids)
+    menus = MasterMenu.where(id: menu_ids)
 
-    master_menus.each do |m|
-      current_user.my_menus.create!(
-        title: m.title,
-        genre: m.genre,       # enum 対応
-        ingredients: m.ingredients,
-        master_menu_id: m.id
+    # 確認モーダル用の partial を返す
+    if params[:confirm] != "true"
+      render turbo_stream: turbo_stream.replace(
+        "modal",
+        partial: "my_menus/modal_confirm",
+        locals: { menus: menus }
+      )
+      return
+    end
+
+    # 登録処理
+    menus.each do |menu|
+      current_user.my_menus.create(
+        title: menu.title,
+        genre: menu.genre,
+        master_menu_id: menu.id
       )
     end
 
-    redirect_to my_menus_path, notice: "マイメニューに登録しました！"
+    redirect_to my_menus_path, notice: "マイメニューに登録しました"
   end
 
   private

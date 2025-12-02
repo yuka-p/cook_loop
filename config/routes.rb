@@ -11,8 +11,7 @@ Rails.application.routes.draw do
 
   resources :my_menus do
     collection do
-      get :select_from_master    # マスターメニュー選択画面
-      post :import_from_master   # 選択したメニューをマイメニューに取り込む
+      post :import_from_master   # 選択したものをマイメニューに登録
     end
   end
 

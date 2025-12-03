@@ -58,19 +58,6 @@
       <%= f.date_field :last_cooked_at, class: "input input-bordered w-full" %>
     </div>
 
-    <!-- 定番メニュー (master_menus) -->
-    <div class="form-control">
-      <label class="label">
-        <span class="label-text font-semibold">定番メニュー（任意）</span>
-      </label>
-      <%= f.collection_select :master_menu_id,
-            @master_menus,
-            :id,
-            :title,
-            { prompt: "選択しない" },
-            { class: "select select-bordered w-full" } %>
-    </div>
-
     <!-- 送信 -->
     <div class="mt-6">
       <%= f.submit "登録する", class: "btn btn-primary w-full" %>

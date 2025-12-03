@@ -1,67 +1,77 @@
 <div class="max-w-2xl mx-auto mt-8">
+  <!-- カード全体 -->
+  <div class="card shadow-lg bg-base-100 p-6">
+    <!-- ページタイトル -->
+    <h1 class="text-3xl font-bold mb-4 text-center"><%= @my_menu.title %></h1>
 
-  <!-- ページタイトル -->
-  <h1 class="text-3xl font-bold mb-6"><%= @my_menu.title %></h1>
+    <div class="space-y-3">
+      <!-- ジャンル -->
+      <div class="flex items-center gap-2">
+        <span class="font-semibold">ジャンル:</span>
+        <span class="badge badge-primary"><%= I18n.t("enums.my_menu.genre.#{@my_menu.genre}") %></span>
+      </div>
 
-  <!-- ジャンル -->
-  <p class="mb-2">
-    <span class="font-semibold">ジャンル:</span>
-    <%= I18n.t("enums.my_menu.genre.#{@my_menu.genre}") %>
-  </p>
-
-  <!-- 材料 -->
-  <% if @my_menu.ingredients.present? %>
-    <p class="mb-2">
-      <span class="font-semibold">材料:</span>
-      <%= simple_format(@my_menu.ingredients) %>
-    </p>
-  <% end %>
-
-  <!-- 定番メニュー -->
-  <% if @my_menu.master_menu.present? %>
-    <p class="mb-2">
-      <span class="font-semibold">定番メニュー:</span>
-      <%= @my_menu.master_menu.title %> 
-      (<%= @my_menu.master_menu.genre_i18n %>)
-    </p>
-  <% end %>
-
-  <!-- 参考URL -->
-  <% if @my_menu.reference_url.present? %>
-    <p class="mb-2">
-      <span class="font-semibold">参考URL:</span>
-      <% begin %>
-        <% uri = URI.parse(@my_menu.reference_url) %>
-        <% if uri.scheme.in?(%w[http https]) %>
-          <%= link_to "参考URLを開く", uri.to_s, target: "_blank", rel: "noopener" %>
-        <% else %>
-          <%= h(@my_menu.reference_url) %>
-        <% end %>
-      <% rescue URI::InvalidURIError %>
-        <%= h(@my_menu.reference_url) %>
+      <!-- 材料 -->
+      <% if @my_menu.ingredients.present? %>
+        <div>
+          <span class="font-semibold">材料:</span>
+          <div class="mt-1 p-3 bg-base-200 rounded-md whitespace-pre-line text-sm">
+            <%= simple_format(@my_menu.ingredients) %>
+          </div>
+        </div>
       <% end %>
-    </p>
-  <% end %>
 
-  <!-- メモ -->
-  <% if @my_menu.note.present? %>
-    <p class="mb-2">
-      <span class="font-semibold">メモ:</span>
-      <%= simple_format(@my_menu.note) %>
-    </p>
-  <% end %>
+      <!-- 定番メニュー -->
+      <% if @my_menu.master_menu.present? %>
+        <div class="flex items-center gap-2">
+          <span class="font-semibold">定番メニュー:</span>
+          <span class="font-medium"><%= @my_menu.master_menu.title %></span>
+          <span class="badge badge-secondary"><%= @my_menu.master_menu.genre_i18n %></span>
+        </div>
+      <% end %>
 
-  <!-- 最終調理日 -->
-  <% if @my_menu.last_cooked_at.present? %>
-    <p class="mb-2">
-      <span class="font-semibold">最終調理日:</span>
-      <%= @my_menu.last_cooked_at.strftime("%Y/%m/%d") %>
-    </p>
-  <% end %>
+      <!-- 参考URL -->
+      <% if @my_menu.reference_url.present? %>
+        <div>
+          <span class="font-semibold">参考URL:</span>
+          <div class="mt-1">
+            <% begin %>
+              <% uri = URI.parse(@my_menu.reference_url) %>
+              <% if uri.scheme.in?(%w[http https]) %>
+                <%= link_to "リンクを開く", uri.to_s, target: "_blank", rel: "noopener", class: "btn btn-sm btn-outline btn-info" %>
+              <% else %>
+                <span class="text-sm text-gray-600"><%= h(@my_menu.reference_url) %></span>
+              <% end %>
+            <% rescue URI::InvalidURIError %>
+              <span class="text-sm text-gray-600"><%= h(@my_menu.reference_url) %></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
 
-  <!-- アクションボタン -->
-  <div class="mt-6 flex gap-4">
-    <%= link_to "編集", edit_my_menu_path(@my_menu), class: "btn btn-primary" %>
-    <%= link_to "一覧へ戻る", my_menus_path, class: "btn btn-outline" %>
+      <!-- メモ -->
+      <% if @my_menu.note.present? %>
+        <div>
+          <span class="font-semibold">メモ:</span>
+          <div class="mt-1 p-3 bg-base-200 rounded-md whitespace-pre-line text-sm">
+            <%= simple_format(@my_menu.note) %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- 最終調理日 -->
+      <% if @my_menu.last_cooked_at.present? %>
+        <div class="flex items-center gap-2">
+          <span class="font-semibold">最終調理日:</span>
+          <span class="text-sm text-gray-700"><%= @my_menu.last_cooked_at.strftime("%Y/%m/%d") %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- アクションボタン -->
+    <div class="mt-6 flex justify-center gap-4">
+      <%= link_to "編集", edit_my_menu_path(@my_menu), class: "btn btn-primary" %>
+      <%= link_to "一覧へ戻る", my_menus_path, class: "btn btn-outline" %>
+    </div>
   </div>
 </div>

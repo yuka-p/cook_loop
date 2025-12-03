@@ -12,7 +12,6 @@ class MyMenusController < ApplicationController
 
   def new
     @my_menu = MyMenu.new
-    @master_menus = MasterMenu.all
   end
 
   def create
@@ -29,6 +28,15 @@ class MyMenusController < ApplicationController
 
   def edit
     @my_menu = MyMenu.find(params[:id])
+  end
+
+  def update
+    @my_menu = MyMenu.find(params[:id])
+    if @my_menu.update(my_menu_params)
+      redirect_to @my_menu, notice: "マイメニューを更新しました"
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def destroy

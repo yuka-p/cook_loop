@@ -3,17 +3,6 @@ ja:
     models:
       master_menu: マスターメニュー
       my_menu: マイメニュー
-      user_genre: ジャンル
-
-    attributes:
-      master_menu:
-        title: タイトル
-        genre: ジャンル
-        genre:
-          main: 主菜
-          side: 副菜
-          soup: 汁物
-          staple: 主食
 
       my_menu:
         title: 料理名

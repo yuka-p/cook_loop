@@ -21,15 +21,6 @@
         </div>
       <% end %>
 
-      <!-- 定番メニュー -->
-      <% if @my_menu.master_menu.present? %>
-        <div class="flex items-center gap-2">
-          <span class="font-semibold">定番メニュー:</span>
-          <span class="font-medium"><%= @my_menu.master_menu.title %></span>
-          <span class="badge badge-secondary"><%= @my_menu.master_menu.genre_i18n %></span>
-        </div>
-      <% end %>
-
       <!-- 参考URL -->
       <% if @my_menu.reference_url.present? %>
         <div>

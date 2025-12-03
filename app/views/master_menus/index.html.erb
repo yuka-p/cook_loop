@@ -1,21 +1,31 @@
-<h1 class="text-2xl font-bold mb-4">マスターメニュー一覧</h1>
+<div class="max-w-2xl mx-auto mt-8">
 
-<%= form_with url: import_from_master_my_menus_path, method: :post, data: { controller: "modal" } do |f| %>
-  <div class="grid grid-cols-3 gap-4">
-    <% @master_menus.each do |menu| %>
-      <div class="p-4 border rounded shadow">
-        <label>
-          <input type="checkbox" name="menu_ids[]" value="<%= menu.id %>" class="mr-2">
-          <span class="font-semibold"><%= menu.title %></span>
-        </label>
-        <p class="text-sm text-gray-500"><%= menu.genre %></p>
-      </div>
+  <!-- ページタイトル -->
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold">マスターメニュー一覧</h1>
+
+    <!-- ホームに戻るボタン -->
+    <%= link_to home_index_path, class: "btn btn-outline" do %>
+      ⬅ ホームに戻る
     <% end %>
   </div>
 
-  <div class="mt-4">
-    <%= f.submit "登録内容を確認", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
-  </div>
-<% end %>
+  <%= form_with url: import_from_master_my_menus_path, method: :post, data: { controller: "modal" } do |f| %>
+    <div class="grid grid-cols-3 gap-4">
+      <% @master_menus.each do |menu| %>
+        <div class="p-4 border rounded shadow">
+          <label>
+            <input type="checkbox" name="menu_ids[]" value="<%= menu.id %>" class="mr-2">
+            <span class="font-semibold"><%= menu.title %></span>
+          </label>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-4">
+      <%= f.submit "登録内容を確認", class: "bg-blue-500 text-white px-4 py-2 rounded" %>
+    </div>
+  <% end %>
+</div>
 
 <%= turbo_frame_tag "modal" %>

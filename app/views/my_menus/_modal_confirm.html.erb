@@ -1,26 +1,28 @@
-<div class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white p-6 rounded shadow-lg w-96">
-    <h2 class="text-xl font-bold mb-4">登録内容確認</h2>
-    <ul class="list-disc ml-6 mb-4">
-      <% menus.each do |menu| %>
-        <li><%= menu.title %> (<%= menu.genre %>)</li>
-      <% end %>
-    </ul>
-    <div class="text-right">
-      <%= form_with url: import_from_master_my_menus_path, method: :post, local: true do |f| %>
+<%= turbo_frame_tag "modal" do %>
+  <div class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded shadow-lg w-96">
+      <h2 class="text-xl font-bold mb-4">登録内容確認</h2>
+      <ul class="list-disc ml-6 mb-4">
         <% menus.each do |menu| %>
-          <%= hidden_field_tag "menu_ids[]", menu.id %>
+          <li><%= menu.title %> (<%= menu.genre %>)</li>
         <% end %>
-        <%= hidden_field_tag :confirm, "true" %>
-        <%= f.submit "登録する", class: "bg-green-500 text-white px-4 py-2 rounded mr-2" %>
-      <% end %>
-      <button
-        type="button"
-        onclick="this.closest('.modal-overlay').remove()"
-        class="bg-gray-300 px-4 py-2 rounded"
-      >
-        キャンセル
-      </button>
+      </ul>
+      <div class="text-right">
+        <%= form_with url: import_from_master_my_menus_path, method: :post, local: true, data: { turbo_frame: "_top" } do |f| %>
+          <% menus.each do |menu| %>
+            <%= hidden_field_tag "menu_ids[]", menu.id %>
+          <% end %>
+          <%= hidden_field_tag :confirm, "true" %>
+          <%= f.submit "登録する", class: "bg-green-500 text-white px-4 py-2 rounded mr-2" %>
+        <% end %>
+        <button
+          type="button"
+          onclick="this.closest('.modal-overlay').remove()"
+          class="bg-gray-300 px-4 py-2 rounded"
+        >
+          キャンセル
+        </button>
+      </div>
     </div>
   </div>
-</div>
+<% end %>
